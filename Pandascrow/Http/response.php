@@ -42,7 +42,7 @@ class Response
 	 */
 	public $body = null;
 
-	function jsonDecode($resp = null)
+	public function jsonDecode($resp = null)
 	{
 		if ($resp == null) {
 			$this->has_error = true;
