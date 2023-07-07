@@ -9,7 +9,7 @@
  * 
  */
 
-function config():stdclass
+function config()
 {
     return (object)[
                         'secret_key' => 'SK_2334992HDJSJHJFH',
