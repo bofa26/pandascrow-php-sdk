@@ -1,6 +1,7 @@
 <?php  
 namespace Pandascrowsdk\Pandascrow\Http;
 
+use Pandascrowsdk\Pandascrow\Exception\RequestException;
 /**
  * 
  */
@@ -42,14 +43,18 @@ class Request
 	 */
 	public string $url = "";
 
-	function __construct(Response $response)
+	public $scrow = null;
+
+	function __construct(Response $response, $scrow)
 	{
 		$this->response = $response;
+		$this->scrow = $scrow;
+
 	}
 
-	public function baseUrl($scrow)
+	public function baseUrl()
 	{
-		if ($scrow->getEnvironment() === 'sandbox') {
+		if ($this->scrow->getEnvironment() === 'sandbox') {
 			$this->url = 'https://api.pandascrow.io/sandbox/index/';
 			return;
 		}
@@ -71,10 +76,23 @@ class Request
 		$this->method = $method;
 	}
 
+	public function build_query(array $query, $seperator = '&'){
+		$params = "";
+		foreach ($query as $k => $v) {
+			$params .= \urlencode($k)."=".\urlencode($v).$seperator;
+		}
+		$index = strlen($params) - 1;
+		if ($params[$index] === $seperator) {
+			$params[$index] = ' ';
+			$params = rtrim($params);
+		}
+		return $params;
+	}
+
 	public function getUrl()
 	{
 		if (is_array($this->body) && $this->method == "GET") {
-			$params = http_build_query($this->body, '', '&');
+			$params = $this->build_query($this->body);
 			$this->url .= $params;
 		}
 		return $this->url;
@@ -89,7 +107,8 @@ class Request
 		switch ($this->method) {
 			case 'POST':
 				if ($this->body === null || empty($this->body)) {
-					throw new \Exception("Post request body can not be empty");					
+					$this->scrow->logger->log("error", "Post request body can not be empty");				
+					throw new RequestException("Post request body can not be empty");
 				}
 				curl_setopt($curl, CURLOPT_POST, 1);
 				curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($this->body));

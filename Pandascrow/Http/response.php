@@ -1,6 +1,7 @@
 <?php  
 namespace Pandascrowsdk\Pandascrow\Http;
 
+use Pandascrowsdk\Pandascrow\Exception\RequestException;
 /**
  * 
  */
@@ -19,7 +20,7 @@ class Response
 	 * 
 	 * 
 	 */
-	public string $error_message = '';
+	public ?string $error_message = null;
 	/**
 	 * 
 	 * 	@var status
@@ -42,37 +43,37 @@ class Response
 	 */
 	public $body = null;
 
+
+	private $scrow = null;
+
+	function __construct($scrow){
+		$this->scrow = $scrow;
+	}
+
 	public function jsonDecode($resp = null)
 	{
-		if ($resp == null) {
-			$this->has_error = true;
-			$this->error_message = "The API returned this response'''' ";
-			return;
+		$this->body = json_decode($resp);
+		if ($this->body == null) {
+			$error_message = "The API returned this response'''' ";
+			$this->scrow->logger->log("error", $error_message);
+			throw new RequestException($error_message);
 		}
-		return json_decode($resp);
 	}
 
 	public function setResponse($response = null)
 	{
-		$resp = $this->jsonDecode($response);
-		if ($resp->status != 200) {
+		$this->jsonDecode($response);
+		$this->status = $this->body->status;
+		$this->data = $this->body->data;
+		if ($this->status != 200) {
 			$this->has_error = true;
-			$this->error_message = $resp->message;
-		}else{
-			foreach($response as $resp => $v){
-				$this->$resp = $v;
-			}
-			$this->body = (object)[
-									'status' => $this->status,
-									'data'   => $this->data
-								  ];
+			$this->error_message = $this->data->message;
 		}
 	}
 
 	public function getBody()
 	{
-		return $this->body;
+		return $this->data;
 	}
-
 
 }

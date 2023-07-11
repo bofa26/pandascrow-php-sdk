@@ -1,5 +1,5 @@
 <?php  
-
+namespace Pandascrowsdk\Pandascrow\Logger;
 /**
  * 
  */
@@ -49,7 +49,7 @@ class Logger
 	public function pen()
 	{
 		if (! $this->handler) {
-			throw new \Exception("Log file missing");
+			throw new AppException("Log file missing");
 		}
 		fwrite($this->handler, $this->content);
 	}
