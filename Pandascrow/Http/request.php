@@ -1,7 +1,7 @@
 <?php  
-namespace Pandascrowsdk\Pandascrow\Http;
+namespace Pandascrow\Http;
 
-use Pandascrowsdk\Pandascrow\Exception\RequestException;
+use Pandascrow\Exception\RequestException;
 /**
  * 
  */
@@ -45,20 +45,20 @@ class Request
 
 	public $scrow = null;
 
-	function __construct(Response $response, $scrow)
+	function __construct($scrow)
 	{
-		$this->response = $response;
 		$this->scrow = $scrow;
+		$this->response = new Response($scrow->logger);
 
 	}
 
 	public function baseUrl()
 	{
-		if ($this->scrow->getEnvironment() === 'sandbox') {
-			$this->url = 'https://api.pandascrow.io/sandbox/index/';
+		if ($this->scrow->getEnvironment() === 'production') {
+			$this->url = 'https://api.pandascrow.io/index/';
 			return;
 		}
-		$this->url = 'https://api.pandascrow.io/index/';
+		$this->url = 'https://api.pandascrow.io/sandbox/index/';
 	}
 
 	public function addEndpoint(string $endpoint)

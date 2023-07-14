@@ -4,7 +4,7 @@ namespace Pandascrow\Exception;
 /**
  * 
  */
-class RequestException extends \Exception
+class ResponseException extends \Exception
 {
 	
 	

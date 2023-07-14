@@ -1,7 +1,7 @@
 <?php  
-namespace Pandascrowsdk\Pandascrow\Http;
+namespace Pandascrow\Http;
 
-use Pandascrowsdk\Pandascrow\Exception\RequestException;
+use Pandascrow\Exception\ResponseException;
 /**
  * 
  */
@@ -44,23 +44,33 @@ class Response
 	public $body = null;
 
 
-	private $scrow = null;
+	private $logger = null;
 
-	function __construct($scrow){
-		$this->scrow = $scrow;
+	function __construct($logger){
+		$this->logger = $logger;
 	}
-
-	public function jsonDecode($resp = null)
+	/**
+	 * 
+	 * @param string|boolean
+	 * 
+	 * 
+	 */
+	public function jsonDecode($resp = false)
 	{
 		$this->body = json_decode($resp);
 		if ($this->body == null) {
 			$error_message = "The API returned this response'''' ";
-			$this->scrow->logger->log("error", $error_message);
-			throw new RequestException($error_message);
+			$this->logger->log("error", $error_message);
+			throw new ResponseException($error_message);
 		}
 	}
-
-	public function setResponse($response = null)
+	/**
+	 * 
+	 * @param string|boolean
+	 * 
+	 * 
+	 */
+	public function setResponse($response = false)
 	{
 		$this->jsonDecode($response);
 		$this->status = $this->body->status;

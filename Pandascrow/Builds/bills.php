@@ -1,6 +1,6 @@
 <?php  
-namespace Pandascrowsdk\Pandascrow\Builds;
-use Pandascrowsdk\Pandascrow\App\Scrow;
+namespace Pandascrow\Builds;
+use Pandascrow\Scrow;
 
 /**
  * 
@@ -14,18 +14,23 @@ class Bills
 	 * 
 	 * 
 	 */
-	public Scrow $scrow;
+	private Scrow $scrow;
 
-	function __construct(Scrow $scrow)
+	private static function initSelf()
 	{
-		$this->scrow = $scrow;
+		self::$scrow = new Scrow(config());
+		self::$validate = new Validate(self::$scrow->logger);
 	}
 
-	public function lists(array $data)
+	public function lists(string $categories)
 	{
-		$this->scrow->logger->log("notice", "initializing Bills List process...");
-		$resp = $this->scrow->httpBuilder('/bill/lists/', "GET", $body);
-		$this->scrow->logger->log("notice", "finished Bills List process...");
+		self::initSelf();
+		
+		self::$scrow->logger->log("notice", "initializing Bills List process...");
+		$data = array('categories' => $categories);
+		$body = self::$validate->sortPathData('/bill/lists/', $data);
+		$resp = self::$scrow->httpBuilder('/bill/lists/', "GET", $body);
+		self::$scrow->logger->log("notice", "finished Bills List process...");
 		return $resp;
 	}
 }

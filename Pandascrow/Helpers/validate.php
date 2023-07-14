@@ -1,7 +1,7 @@
 <?php  
-namespace Pandascrowsdk\Pandascrow\Helpers;
+namespace Pandascrow\Helpers;
 
-use Pandascrowsdk\Pandascrow\Exception\ValidateException;
+use Pandascrow\Exception\ValidateException;
 /**
  * 
  */
@@ -11,18 +11,18 @@ class Validate
 	private $bank_resolve = array('account_number' => ['number', 'required'], 'bank_code' => ['number', 'required']);
 
 
-	private $scrow;
+	private $logger;
 
-	function __construct($scrow)
+	function __construct($logger)
 	{
-		$this->scrow = $scrow;
+		$this->logger = $logger;
 	}
 
 	public function sortPathData(string $pathname, array $data)
 	{
-
-		if ($pathname === "") {
-			$this->scrow->logger->log("error", "a valid Path Is Required To Sort Data");
+		
+		if ($pathname == "") {
+			$this->logger->log("error", "a valid Path Is Required To Sort Data");
 			throw new ValidateException("A valid Path Is Required To Sort Data");
 		}
 
@@ -30,7 +30,7 @@ class Validate
 		$fragment = $exploded_path[1]."_".$exploded_path[2];
 
 		if (! property_exists($this, $fragment)) {
-			$this->scrow->logger->log("error", "Path Fragment Not Recognized");
+			$this->logger->log("error", "Path Fragment Not Recognized");
 			throw new ValidateException("Path Fragment Not Recognized");
 		}
 
@@ -41,8 +41,9 @@ class Validate
 				$validate_error = "value For Field $key Not String Type";
 				break;
 			}
-			$v = filter_var($v, FILTER_SANITIZE_STRING):
-			if (! $this->$fragment[$key]) {
+			$v = filter_var($v, FILTER_SANITIZE_STRING);
+
+			if (! isset($this->$fragment[$key])) {
 				$validate_error = "$key Not Recognized";
 				break;
 			}
@@ -50,25 +51,26 @@ class Validate
 				if ($rule === "required") {
 					if ($v ==="" || $v === " ") {
 						$validate_error = "$key Is Required";
+						break;
 					}
 				}
-
-				if ($rule == "number") {
+				if ($rule === "number") {
 					if (preg_match("/^[0-9]$/", $v) === false) {
 						$validate_error = "$key Should Be Number";
+						break;
 					}
 				}
 
 				if ($rule === "alphabet") {
 					if (preg_match("/^[A-Za-z]/", $v) === false) {
 						$validate_error = "$key Should Be Alphabet";
+						break;
 					}
 				}
 			}		
 		}
-
-		if ($validate_error != "") {
-			$this->scrow->logger->log("error", $validate_error);
+		if (! $validate_error == "") {
+			$this->logger->log("error", $validate_error);
 			throw new ValidateException($validate_error);		
 		}
 		return $data;

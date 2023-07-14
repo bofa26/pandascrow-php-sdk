@@ -1,8 +1,8 @@
 <?php  
-namespace Pandascrowsdk\Pandascrow\Builds;
+namespace Pandascrow\Builds;
 
-use Pandascrowsdk\Pandascrow\App\Scrow;
-use Pandascrowsdk\Pandascrow\Helpers\Validate;
+use Pandascrow\Scrow;
+use Pandascrow\Helpers\Validate;
 
 /**
  * 
@@ -16,7 +16,7 @@ class Bank
 	 * 
 	 * 
 	 */
-	public Scrow $scrow;
+	private static Scrow $scrow;
 	/**
 	 * 
 	 * 
@@ -24,31 +24,34 @@ class Bank
 	 * 
 	 * 
 	 */
-	public Validate $validate;
+	private static Validate $validate;
 
-	function __construct(Scrow $scrow)
+	private static function initSelf()
 	{
-		$this->scrow = $scrow;
-		$this->validate = new Validate($scrow);
+		self::$scrow = new Scrow(config());
+		self::$validate = new Validate(self::$scrow->logger);
 	}
 
-	public function fetchBanks(string $country)
+	public static function lists(string $country)
 	{
+		self::initSelf();
 
-		$this->scrow->logger->log("notice", "initializing Fetch Banks process...");
+		self::$scrow->logger->log("notice", "initializing Fetch Banks process...");
 		$body = ['country' => $country];
-		$data = $this->validate->sortPathData('/bank/list/', $body);
-		$resp = $this->scrow->httpBuilder('/bank/list/', "GET", $data);
-		$this->scrow->logger->log("notice", "finished Fetch Banks process...");
+		$data = self::$validate->sortPathData('/bank/list/', $body);
+		$resp = self::$scrow->httpBuilder('/bank/list/', "GET", $data);
+		self::$scrow->logger->log("notice", "finished Fetch Banks process...");
 		return $resp;
 	}
 
-	public function validateNuban(array $body)
+	public static function resolve(array $body)
 	{
-		$this->scrow->logger->log("notice", "initializing Validate Nuban process...");
-		$data = $this->validate->sortPathData("/bank/resolve/", $body);
-		$resp = $this->scrow->httpBuilder("/bank/resolve/", "GET", $data);
-		$this->scrow->logger->log("notice", "finished Validate Nuban process");
+		self::initSelf();
+
+		self::$scrow->logger->log("notice", "initializing Validate Nuban process...");
+		$data = self::$validate->sortPathData("/bank/resolve/", $body);
+		$resp = self::$scrow->httpBuilder("/bank/resolve/", "GET", $data);
+		self::$scrow->logger->log("notice", "finished Validate Nuban process");
 		return $resp;
 	}
 }

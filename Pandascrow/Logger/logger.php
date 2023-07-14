@@ -1,5 +1,7 @@
 <?php  
-namespace Pandascrowsdk\Pandascrow\Logger;
+namespace Pandascrow\Logger;
+
+use Pandascrow\Exception\AppException;
 /**
  * 
  */

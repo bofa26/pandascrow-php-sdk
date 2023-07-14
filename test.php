@@ -1,28 +1,38 @@
 <?php  
-use Pandascrowsdk\Pandascrow\Exception\AppException;
-use Pandascrowsdk\Pandascrow\Exception\RequestException;
-use Pandascrowsdk\Pandascrow\Logger\Logger;
-use Pandascrowsdk\Pandascrow\App\Scrow;
-use Pandascrowsdk\Pandascrow\Http\Response;
-use Pandascrowsdk\Pandascrow\Http\Request;
-use Pandascrowsdk\Pandascrow\Builds\Bank;
+use Pandascrow\Exception\AppException;
+use Pandascrow\Exception\ValidateException;
+use Pandascrow\Exception\ResponseException;
+use Pandascrow\Exception\RequestException;
+use Pandascrow\Logger\Logger;
+use Pandascrow\Router;
+use Pandascrow\Helpers\Validate;
+use Pandascrow\Scrow;
+use Pandascrow\Builds\Bank;
+use Pandascrow\Http\Response;
+use Pandascrow\Http\Request;
 
 require'Pandascrow/Exception/appexception.php';
+require'Pandascrow/Exception/responseexception.php';
 require'Pandascrow/Exception/requestexception.php';
-require'Pandascrow/App/config.php';
+require'Pandascrow/Exception/validateexception.php';
 require'Pandascrow/Logger/logger.php';
-require'Pandascrow/App/scrow.php';
+require'Pandascrow/router.php';
+require'Pandascrow/App/config.php';
+require'Pandascrow/Helpers/validate.php';
+require'Pandascrow/scrow.php';
+require'Pandascrow/Builds/bank.php';
 require'Pandascrow/Http/response.php';
 require'Pandascrow/Http/request.php';
-require'Pandascrow/Builds/bank.php';
 
 
-$scrow    = new Scrow(config());
-$bank     = new Bank($scrow);
-
+$scrow  = new Scrow(config());
 
 try {
-	$bank->fetchBanks('Nigeria');
+	$data = $scrow->get('/bank/list/', 'Nigeria');
 } catch (Exception $e) {
 	echo $e->getMessage();
-}
+} 
+
+
+
+

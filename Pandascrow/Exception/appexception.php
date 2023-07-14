@@ -1,5 +1,5 @@
 <?php 
-namespace Pandascrowsdk\Pandascrow\Exception;
+namespace Pandascrow\Exception;
 
 /**
  * 

@@ -1,11 +1,8 @@
 <?php  
-namespace Pandascrowsdk\Pandascrow\App;
+namespace Pandascrow;
 
-use Pandascrowsdk\Pandascrow\Exception\AppException;
-use Pandascrowsdk\Pandascrow\Exception\RequestException;
-use Pandascrowsdk\Pandascrow\Logger\Logger;
-use Pandascrowsdk\Pandascrow\Http\Response;
-use Pandascrowsdk\Pandascrow\Http\Request;
+use Pandascrow\Logger\Logger;
+use Pandascrow\Http\Request;
 
 /**
  * 
@@ -30,7 +27,7 @@ class Scrow
 	 * 
 	 *
 	 */
-	private string $version = '2.0.0';
+	private string $version = '';
 	/**
 	 * 
 	 * 
@@ -95,7 +92,7 @@ class Scrow
 	 * 
 	 * 
 	 */
-	public function getSecretKey():string
+	private function getSecretKey():string
 	{
 		return $this->secret_key;
 	}
@@ -107,7 +104,7 @@ class Scrow
 	 * 
 	 * 
 	 */
-	public function getVersion():string
+	private function getVersion():string
 	{
 		return $this->version;
 	}
@@ -119,7 +116,7 @@ class Scrow
 	 * 
 	 * 
 	 */
-	public function getAppName():string
+	private function getAppName():string
 	{
 		return $this->app_name;
 	}
@@ -131,7 +128,7 @@ class Scrow
 	 * 
 	 * 
 	 */
-	public function getAppId():string
+	private function getAppId():string
 	{
 		return $this->app_id;
 	}
@@ -158,12 +155,11 @@ class Scrow
 	 */
 	public function httpBuilder(string $endpoint, string $method, ?array $body = null)
 	{	
-		$response = new Response($this);
-		$request  = new Request($response, $this);
-
+		$request  = new Request($this);
 		$request->body = $body;
 		$request->addHeader('Content-Type', 'application/json');
 		$request->addHeader('Authorization', $this->getSecretKey());
+		$request->addHeader('version', $this->getVersion());
 		$request->addHeader('AppId', $this->getAppId());
 		$request->addMethod($method);
 		$request->baseUrl();
@@ -175,7 +171,14 @@ class Scrow
 		}
 		return $request->response->getBody();
 	}
-
+	/**
+	 * 
+	 * 	@param string
+	 *  @param string
+	 *	@param array
+	 * 	@return array 
+	 * 
+	 */
 	public function multiRequest(string $endpoint, string $method, array $body)
 	{
 		$response = array();
@@ -187,5 +190,31 @@ class Scrow
 			$response[$name] = $this->httpBuilder($endpoint, $method, $data);
 		}
 		return $response;
+	}
+	/**
+	 * 
+	 * 	@param string
+	 * 	@param array|string
+	 * 	@return Callable
+	 * 
+	 */
+	public function get(string $endpoint, array|string $params)
+	{
+		$callable = Router::getPath($endpoint, "get");
+
+		return call_user_func($callable, $params);
+	}	
+	/**
+	 * 
+	 * 	@param string
+	 * 	@param array
+	 * 	@return Callable
+	 * 
+	 */
+	public function post(string $endpoint, array $params)
+	{
+		$callable = Router::getPath($endpoint, "post");
+
+		return call_user_func($callable, $params);
 	}
 }
