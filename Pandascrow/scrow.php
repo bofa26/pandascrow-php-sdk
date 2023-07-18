@@ -27,7 +27,7 @@ class Scrow
 	 * 
 	 *
 	 */
-	private string $version = '';
+	private string $version = '2.0.0';
 	/**
 	 * 
 	 * 

@@ -38,7 +38,7 @@ class Bank
 
 		self::$scrow->logger->log("notice", "initializing Fetch Banks process...");
 		$body = ['country' => $country];
-		$data = self::$validate->sortPathData('/bank/list/', $body);
+		$data = self::$validate->validation($body, ['country' => 'required']);
 		$resp = self::$scrow->httpBuilder('/bank/list/', "GET", $data);
 		self::$scrow->logger->log("notice", "finished Fetch Banks process...");
 		return $resp;
@@ -49,7 +49,7 @@ class Bank
 		self::initSelf();
 
 		self::$scrow->logger->log("notice", "initializing Validate Nuban process...");
-		$data = self::$validate->sortPathData("/bank/resolve/", $body);
+		$data = self::$validate->validation($body, ['account_number' => 'required|numeric', 'bank_code' => 'required|numeric']);
 		$resp = self::$scrow->httpBuilder("/bank/resolve/", "GET", $data);
 		self::$scrow->logger->log("notice", "finished Validate Nuban process");
 		return $resp;

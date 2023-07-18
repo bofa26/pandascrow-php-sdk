@@ -13,7 +13,6 @@ function config()
 {
     return (object)[
                         'secret_key' => 'SK_2334992HDJSJHJFH',
-                        'version' => '2.0.0',
                         'app_name' => 'selecao',
                         'app_id'   => '253389',
                         'environment' => 'sandbox'// use 'production' when going live

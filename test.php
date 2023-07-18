@@ -11,28 +11,18 @@ use Pandascrow\Builds\Bank;
 use Pandascrow\Http\Response;
 use Pandascrow\Http\Request;
 
-require'Pandascrow/Exception/appexception.php';
-require'Pandascrow/Exception/responseexception.php';
-require'Pandascrow/Exception/requestexception.php';
-require'Pandascrow/Exception/validateexception.php';
-require'Pandascrow/Logger/logger.php';
-require'Pandascrow/router.php';
-require'Pandascrow/App/config.php';
-require'Pandascrow/Helpers/validate.php';
-require'Pandascrow/scrow.php';
-require'Pandascrow/Builds/bank.php';
-require'Pandascrow/Http/response.php';
-require'Pandascrow/Http/request.php';
 
-
-$scrow  = new Scrow(config());
+require_once'Pandascrow/App/config.php';
+require_once'autoload.php';
+require'vendor/autoload.php';
 
 try {
-	$data = $scrow->get('/bank/list/', 'Nigeria');
+	 $scrow = new Scrow(config());
+	 $resp = $scrow->get('/bank/resolve/', ['account_number' => '5423950042', 'bank_code' => '045']);
+	 echo $resp;
 } catch (Exception $e) {
 	echo $e->getMessage();
-} 
-
+}
 
 
 
