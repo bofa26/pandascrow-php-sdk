@@ -17,8 +17,8 @@ i. Your configuration file is located at Pandascrow\App\config.php.
 ii. You can make a request to an endpoint that handles that request by:
     a) Making a call to the Scrow class get method for GET requests.
     
-       We will send a GET request to the /bank/list/ endpoint to fetch a list of all the banks in Nigeria.
-       
+    We will send a GET request to the /bank/list/ endpoint to fetch a list of all the banks in Nigeria.    
+   
    ![Screenshot (71)](https://github.com/bofa26/pandascrow-php-sdk/assets/127630429/1498d755-bb87-435f-af3f-51c6116cd8ba)
 
 
