@@ -19,7 +19,7 @@ i. Your configuration file is located at Pandascrow\App\config.php.
 
 ii. Get Requests:
 
-    The Scrow->get() method handles get requests. It takes an endpoint and an array or string data as its parameters.
+    The Scrow->get() method handles GET requests. It takes an endpoint and an array or string data as its parameters.
     
     Picture below is a GET request to the /bank/list/ endpoint to fetch a list of all the banks in Nigeria.    
    
