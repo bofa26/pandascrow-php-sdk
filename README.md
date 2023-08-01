@@ -17,7 +17,7 @@ i. Your configuration file is located at Pandascrow\App\config.php.
    
    ![Screenshot (70)](https://github.com/bofa26/pandascrow-php-sdk/assets/127630429/caf8f16e-9306-409b-9acd-2997b0d5110b)
 
-ii. Get Requests:
+ii. GET Requests:
 
     The Scrow->get() method handles GET requests. It takes an endpoint and an array or string data as its parameters.
     
