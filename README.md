@@ -23,7 +23,8 @@ ii. Get Requests:
     
     Picture below is a GET request to the /bank/list/ endpoint to fetch a list of all the banks in Nigeria.    
    
-   ![Screenshot (71)](https://github.com/bofa26/pandascrow-php-sdk/assets/127630429/1498d755-bb87-435f-af3f-51c6116cd8ba)
+   ![Screenshot (72)](https://github.com/bofa26/pandascrow-php-sdk/assets/127630429/44db7e49-ab21-4342-91fd-bace4c2d3738)
+
 
 
 
