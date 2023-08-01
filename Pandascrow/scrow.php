@@ -1,7 +1,10 @@
 <?php  
 namespace Pandascrow;
 
+use Pandascrow\Exception\AppException;
+use Pandascrow\Exception\RequestException;
 use Pandascrow\Logger\Logger;
+use Pandascrow\Router;
 use Pandascrow\Http\Request;
 
 /**

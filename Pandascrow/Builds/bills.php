@@ -1,7 +1,9 @@
 <?php  
 namespace Pandascrow\Builds;
 
-
+use Pandascrow\Scrow;
+use Pandascrow\Helpers\Validate;
+use Pandascrow\Logger\Logger;
 /**
  * 		
  */
@@ -64,7 +66,10 @@ class Bills
 		self::$scrow->logger->log("notice", "initializing Bills Data Purchase process...");
 		$body = self::$validate->validation($data, 
 												[
-													'phone' => 'required|numeric', 'plan' =>'required|numeric', 'amount' => 'required|numeric', 'network' => 'required|alpha'
+													'phone' => 'required|numeric', 
+													'plan' =>'required|numeric', 
+													'amount' => 'required|numeric', 
+													'network' => 'required|alpha'
 												]
 										    );
 		$resp = self::$scrow->httpBuilder('/bill/data/purchase', "POST", $body);

@@ -2,6 +2,7 @@
 namespace Pandascrow\Http;
 
 use Pandascrow\Exception\RequestException;
+use Pandascrow\Logger\Logger;
 /**
  * 
  */
@@ -76,7 +77,8 @@ class Request
 		$this->method = $method;
 	}
 
-	public function build_query(array $query, $seperator = '&'){
+	public function build_query(array $query, $seperator = '&')
+	{
 		$params = "";
 		foreach ($query as $k => $v) {
 			$params .= \urlencode($k)."=".\urlencode($v).$seperator;
@@ -121,5 +123,4 @@ class Request
 		$response = curl_exec($curl);
 		$this->response->setResponse($response);
 	}
-
 }

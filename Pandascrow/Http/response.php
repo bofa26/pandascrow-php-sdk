@@ -2,6 +2,7 @@
 namespace Pandascrow\Http;
 
 use Pandascrow\Exception\ResponseException;
+use Pandascrow\Logger\Logger;
 /**
  * 
  */
@@ -20,14 +21,14 @@ class Response
 	 * 
 	 * 
 	 */
-	public ?string $error_message = null;
+	public string $error_message = "";
 	/**
 	 * 
 	 * 	@var status
 	 * 
 	 * 
 	 */
-	public $status = '';
+	public $status = null;
 	/**
 	 * 
 	 * 	
@@ -51,7 +52,7 @@ class Response
 	}
 	/**
 	 * 
-	 * @param string|boolean
+	 * @param string|bool
 	 * 
 	 * 
 	 */
@@ -66,13 +67,13 @@ class Response
 	}
 	/**
 	 * 
-	 * @param string|boolean
+	 * @param string|bool
 	 * 
 	 * 
 	 */
-	public function setResponse($response = false)
+	public function setResponse($resp = false)
 	{
-		$this->jsonDecode($response);
+		$this->jsonDecode($resp);
 		$this->status = $this->body->status;
 		$this->data = $this->body->data;
 		if ($this->status != 200) {
