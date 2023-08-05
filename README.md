@@ -26,6 +26,8 @@ ii. GET Requests:
    ![Screenshot (72)](https://github.com/bofa26/pandascrow-php-sdk/assets/127630429/44db7e49-ab21-4342-91fd-bace4c2d3738)
 
 
+iii. POST Requests:
 
+      The Scrow->post() method handles POST Requests. It takes an endpoint and an array request body as its parameters.
 
        
