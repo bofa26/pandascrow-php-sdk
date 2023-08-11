@@ -1,10 +1,12 @@
 Pandascrow SDK PHP
 
 Description:
-A PHP SDK to connect, send and recieve data from the pandascrow API. 
+A PHP SDK to connect, send and recieve data from the pandascrow API.
+ 
 This project features:
 
 multiple requests to an endpoint.
+
 Good routing system for endpoints.
 
 User Guide:

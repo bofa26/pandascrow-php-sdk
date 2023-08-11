@@ -184,13 +184,14 @@ class Scrow
 	 */
 	public function multiRequest(string $endpoint, string $method, array $body)
 	{
+
 		$response = array();
 		foreach ($body as $name => $data) {
 			if (! is_array($data) && ! $data == null) {
-				$this->logger->log("error", "Array data for multiple request should be type array or null");
+		 		$this->logger->log("error", "Array data for multiple request should be type array or null");
 				throw new RequestException("Array data for multiple request should be type array or null");
 			}
-			$response[$name] = $this->httpBuilder($endpoint, $method, $data);
+			$response[$name] = ($method === "GET") ? $this->get($endpoint, $data) : $this->post($endpoint, $data);
 		}
 		return $response;
 	}

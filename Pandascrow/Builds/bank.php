@@ -33,12 +33,11 @@ class Bank
 		self::$validate = new Validate(self::$scrow->logger);
 	}
 
-	public static function lists(string $country)
+	public static function lists(array $body)
 	{
 		self::initSelf();
 
 		self::$scrow->logger->log("notice", "initializing Fetch Banks process...");
-		$body = ['country' => $country];
 		$data = self::$validate->validation($body, ['country' => 'required']);
 		$resp = self::$scrow->httpBuilder('/bank/list/', "GET", $data);
 		self::$scrow->logger->log("notice", "finished Fetch Banks process...");

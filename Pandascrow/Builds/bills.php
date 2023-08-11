@@ -24,13 +24,12 @@ class Bills
 		self::$validate = new Validate(self::$scrow->logger);
 	}
 
-	public function lists(string $categories)
+	public function lists(array $categories)
 	{
 		self::initSelf();
 		
 		self::$scrow->logger->log("notice", "initializing Bills List process...");
-		$data = array('categories' => $categories);
-		$body = self::$validate->validation($data, ['airtime' => 'alpha', 'data' => 'alpha', 'utility' => 'alpha']);
+		$body = self::$validate->validation($categories, ['airtime' => 'alpha', 'data' => 'alpha', 'utility' => 'alpha']);
 		$resp = self::$scrow->httpBuilder('/bill/lists/', "GET", $body);
 		self::$scrow->logger->log("notice", "finished Bills List process...");
 		return $resp;
@@ -47,12 +46,11 @@ class Bills
 		return $resp;
 	}
 
-	public function data_plans(string $networkID)
+	public function data_plans(array $data)
 	{
 		self::initSelf();
 		
 		self::$scrow->logger->log("notice", "initializing Bills Data Plans process...");
-		$data = array('networkID' => $networkID);
 		$body = self::$validate->validation($data, ['networkID' => 'required|numeric']);
 		$resp = self::$scrow->httpBuilder('/bill/data/plans', "GET", $body);
 		self::$scrow->logger->log("notice", "finished Bills Data Plans process...");
@@ -66,10 +64,10 @@ class Bills
 		self::$scrow->logger->log("notice", "initializing Bills Data Purchase process...");
 		$body = self::$validate->validation($data, 
 												[
-													'phone' => 'required|numeric', 
-													'plan' =>'required|numeric', 
-													'amount' => 'required|numeric', 
-													'network' => 'required|alpha'
+													 'phone' => 'required|numeric',
+													 'plan' =>'required|numeric', 
+													 'amount' => 'required|numeric',
+													 'network' => 'required|alpha'
 												]
 										    );
 		$resp = self::$scrow->httpBuilder('/bill/data/purchase', "POST", $body);
@@ -77,12 +75,11 @@ class Bills
 		return $resp;
 	}
 
-	public function utility_variation(string $serviceID)
+	public function utility_variation(array $data)
 	{
 		self::initSelf();
 		
 		self::$scrow->logger->log("notice", "initializing Bills Utility Variation process...");
-		$data = array('serviceID' => $serviceID);
 		$body = self::$validate->validation($data, ['phone' => 'required|numeric']);
 		$resp = self::$scrow->httpBuilder('/bill/utility/variation', "GET", $body);
 		self::$scrow->logger->log("notice", "finished Bills Data Plans process...");
