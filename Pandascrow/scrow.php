@@ -65,7 +65,7 @@ class Scrow
 	 * 
 	 * 
 	 */
-	public ?Logger $logger = null;
+	private ?Logger $logger = null;
 	/**
 	 * 
 	 * 
@@ -80,7 +80,7 @@ class Scrow
 		$this->logger = new Logger();
 		foreach ($config as $k => $v) {
 			if ($k === 'secret_key') {
-				if (! is_string($v) || ! substr($v, 0, 3) === "SK_") {
+				if (! is_string($v) || substr($v, 0, 3) != "SK_") {
 					$this->logger->log("notice", "A valid Pandascrow secret key must begin with SK_");
 					throw new AppException("A valid Pandascrow secret key must begin with SK_");
 				}
@@ -156,7 +156,7 @@ class Scrow
 	 * 
 	 * 
 	 */
-	public function httpBuilder(string $endpoint, string $method, ?array $body = null)
+	public function httpBuilder(string $endpoint, string $method, array $body = [])
 	{	
 		$request  = new Request($this);
 		$request->body = $body;
@@ -187,9 +187,9 @@ class Scrow
 
 		$response = array();
 		foreach ($body as $name => $data) {
-			if (! is_array($data) && ! $data == null) {
-		 		$this->logger->log("error", "Array data for multiple request should be type array or null");
-				throw new RequestException("Array data for multiple request should be type array or null");
+			if (! is_array($data)) {
+		 		$this->logger->log("error", "Data for multiple request should be type array");
+				throw new RequestException("Data for multiple request should be type array");
 			}
 			$response[$name] = ($method === "GET") ? $this->get($endpoint, $data) : $this->post($endpoint, $data);
 		}
