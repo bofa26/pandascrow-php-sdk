@@ -24,5 +24,6 @@ class Validate
 			$this->logger->log('error', implode('', $error->firstOfAll()));
 			throw new ValidateException(implode('', $error->firstOfAll()));
 		}
+		return $data;
 	}
 }

@@ -65,7 +65,7 @@ class Scrow
 	 * 
 	 * 
 	 */
-	private ?Logger $logger = null;
+	public ?Logger $logger = null;
 	/**
 	 * 
 	 * 
@@ -84,6 +84,10 @@ class Scrow
 					$this->logger->log("notice", "A valid Pandascrow secret key must begin with SK_");
 					throw new AppException("A valid Pandascrow secret key must begin with SK_");
 				}
+			}
+			if ($v === "" || empty($v)) {
+				$this->logger->log("notice", "Value required for $K");
+				throw new AppException("Value required for $K");
 			}
 			$this->$k = $v;
 		}
@@ -189,7 +193,7 @@ class Scrow
 		foreach ($body as $name => $data) {
 			if (! is_array($data)) {
 		 		$this->logger->log("error", "Data for multiple request should be type array");
-				throw new RequestException("Data for multiple request should be type array");
+				throw new AppException("Data for multiple request should be type array");
 			}
 			$response[$name] = ($method === "GET") ? $this->get($endpoint, $data) : $this->post($endpoint, $data);
 		}

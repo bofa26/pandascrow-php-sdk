@@ -56,7 +56,7 @@ class Response
 	 * 
 	 * 
 	 */
-	public function jsonDecode($resp = false)
+	public function jsonDecode($resp = false):void
 	{
 		$this->body = json_decode($resp);
 		if ($this->body == null) {
