@@ -80,7 +80,7 @@ class Scrow
 		$this->logger = new Logger();
 		foreach ($config as $k => $v) {
 			if ($k === 'secret_key') {
-				if (! is_string($v) || substr($v, 0, 3) != "SK_") {
+				if (! is_string($v) || substr($v, 0, 3) !== "SK_") {
 					$this->logger->log("notice", "A valid Pandascrow secret key must begin with SK_");
 					throw new AppException("A valid Pandascrow secret key must begin with SK_");
 				}
@@ -202,11 +202,11 @@ class Scrow
 	/**
 	 * 
 	 * 	@param string
-	 * 	@param array|string
+	 * 	@param array
 	 * 	@return Callable
 	 * 
 	 */
-	public function get(string $endpoint, array|string $params)
+	public function get(string $endpoint, array $params)
 	{
 		$callable = Router::getPath($endpoint, "get");
 
