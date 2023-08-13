@@ -9,6 +9,10 @@ multiple requests to an endpoint.
 
 Good routing system for endpoints.
 
+Requirement:
+
+Install Rakit\Validation package from composer.
+
 User Guide:
 This is a step by step guide on how to use this project.
 
