@@ -20,7 +20,7 @@ class Bills
 
 	private static function initSelf()
 	{
-		self::$scrow = new Scrow(config());
+		self::$scrow = new Scrow();
 		self::$validate = new Validate(self::$scrow->logger);
 	}
 

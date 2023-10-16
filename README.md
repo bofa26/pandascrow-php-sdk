@@ -18,7 +18,7 @@ This is a step by step guide on how to use this project.
 
 i. Your configuration file is located at Pandascrow\App\config.php.
 
-   Fill in your app details
+   Fill in your app details.
 
    
    ![Screenshot (70)](https://github.com/bofa26/pandascrow-php-sdk/assets/127630429/caf8f16e-9306-409b-9acd-2997b0d5110b)
@@ -38,3 +38,12 @@ iii. POST Requests:
       The Scrow->post() method handles POST Requests. It takes an endpoint and an array request body as its parameters.
 
        
+
+
+iv. Batch Requests:
+    
+    This project supports batch request to an endpoint. The example below shows how to handle a batch request.
+
+
+
+    Note: The response is returned as an array of keys and values. Where the id of each request sent in the batch is the key of the response.

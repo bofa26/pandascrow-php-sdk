@@ -22,22 +22,16 @@ class Logger
 	 */
 	public $content = "";
 	
-	function __construct(string $log_path = "")
+	function __construct()
 	{
-		if ($log_path == "") {
-			$defaultpath = dirname(dirname(__DIR__))."/Log";
-			if (! is_dir($defaultpath)) {
-				mkdir($defaultpath);
-			}
-			$path = $defaultpath."/".date("Y-m-d").'.log';
-			$this->handler = fopen($path, 'a');
-		}else{
-			if (! is_dir($log_path)) {
-				mkdir($log_path, 0777, true);
-			}
-			$path = $log_path."/".date("Y-m-d").".log";
-			$this->handler = fopen($path, 'a');
+
+		if (! is_dir(LOG_PATH)) {
+			throw new AppException("The Log file path is unknown");	
 		}
+
+		$path = LOG_PATH.date("Y-m-d").'.log';
+		$this->handler = fopen($path, 'a');
+		
 	}
 
 	public function format(string $level, string $date, string $message)

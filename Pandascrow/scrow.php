@@ -7,6 +7,7 @@ use Pandascrow\Logger\Logger;
 use Pandascrow\Router;
 use Pandascrow\Http\Request;
 
+require_once'App/config.php';
 /**
  * 
  */
@@ -75,9 +76,10 @@ class Scrow
 	 * 
 	 */
 
-	function __construct($config)
+	function __construct()
 	{
 		$this->logger = new Logger();
+		$config = config();
 		foreach ($config as $k => $v) {
 			if ($k === 'secret_key') {
 				if (! is_string($v) || substr($v, 0, 3) !== "SK_") {
@@ -169,7 +171,6 @@ class Scrow
 		$request->addHeader('version', $this->getVersion());
 		$request->addHeader('AppId', $this->getAppId());
 		$request->addMethod($method);
-		$request->baseUrl();
 		$request->addEndpoint($endpoint);
 		$request->send();
 

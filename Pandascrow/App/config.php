@@ -20,4 +20,7 @@ function config()
 }
 
 
+defined('LOG_PATH') OR define('LOG_PATH', dirname(dirname(__DIR__)).'/Log/');
+
+
  ?>

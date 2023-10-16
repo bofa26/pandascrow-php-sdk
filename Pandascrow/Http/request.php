@@ -50,10 +50,10 @@ class Request
 	{
 		$this->scrow = $scrow;
 		$this->response = new Response($scrow->logger);
-
+		$this->baseUrl();
 	}
 
-	public function baseUrl()
+	private function baseUrl()
 	{
 		if ($this->scrow->getEnvironment() === 'production') {
 			$this->url = 'https://api.pandascrow.io/index/';
